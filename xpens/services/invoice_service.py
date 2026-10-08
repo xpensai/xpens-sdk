@@ -108,7 +108,7 @@ class InvoiceService:
 
         :param invoice_id: The ID of the invoice to update
         :param data: A dictionary representing the updated invoice fields
-        :param comment: Optional comment for update context (default: 'API UPDATE')
+        :param comment: Update context stored as status_details, not a user discussion comment (default: 'API UPDATE')
         :return: Updated Invoice model instance
         """
         method = "PUT"
