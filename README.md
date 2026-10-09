@@ -151,7 +151,7 @@ updated = xp.invoices.update_invoice(
 
 ### Update line items safely
 
-Fetch the invoice first and send its current revision with the complete line list.
+Fetch the invoice first and send the complete updated line list.
 Keep each existing `line_id`; omit `line_id` only for a new line. Omitting an existing
 line removes it and retains its discussion in invoice history.
 
@@ -162,16 +162,16 @@ data["ListItem"][0]["Comments"] = "Accounting note"
 updated = xp.invoices.update_invoice(
     invoice_id=invoice.id,
     data={
-        "_line_items_revision": data["_line_items_revision"],
         "ListItem": data["ListItem"],
     },
     comment="Accounting correction",
 )
 ```
 
-A stale or missing revision on a migrated invoice's line update returns HTTP 409.
-Fetch again and review the latest values before retrying. Header-only updates can
-omit the revision and leave line items unchanged.
+Invoice updates no longer require a revision counter. Invalid, duplicate or retired
+line identities return HTTP 409 (`invoice_line_identity_invalid`). Preserve line
+IDs when editing; do not reuse IDs from deleted lines. Concurrent updates use
+last-write-wins. Header-only updates leave line items unchanged.
 
 Line `Comments` and invoice `comments` are accounting fields. The `comment` argument
 is update context stored in `status_details`, not a discussion post. Discussion
