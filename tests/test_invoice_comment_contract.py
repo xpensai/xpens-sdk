@@ -10,7 +10,7 @@ class InvoiceCommentContractTests(unittest.TestCase):
     def test_update_preserves_context_and_accounting_values(self):
         client = Mock()
         line = {'line_id': '507f1f77bcf86cd799439011', 'Comments': '  Expert name\n'}
-        payload = {'_line_items_revision': 3, 'comments': '  Narrative\n', 'ListItem': [line]}
+        payload = {'comments': '  Narrative\n', 'ListItem': [line]}
         response = {key: None for key in Invoice.model_fields}
         nested = {key: None for key in InvoiceData.model_fields}
         response.update(id='507f1f77bcf86cd799439012', status='Completed', id_client='tenant',
